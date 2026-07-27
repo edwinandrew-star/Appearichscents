@@ -80,12 +80,22 @@
       box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
 
+    /* Main Section Container */
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      width: 100%;
+    }
+
     /* Middle Perfume Carousel */
     .cards-section {
       display: flex;
       gap: 20px;
       overflow-x: auto;
       padding: 15px 5px;
+      width: 100%;
       scrollbar-width: none;
     }
 
@@ -133,62 +143,39 @@
       color: #ddd;
     }
 
-    .card-price {
-      font-size: 0.85rem;
-      font-weight: bold;
-      color: #fdb813;
-      margin-top: 6px;
-    }
-
-    /* Bottom App Bar Navigation */
-    .app-bar {
+    /* Single Center Action Button */
+    .action-container {
       display: flex;
-      gap: 12px;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(20px);
-      padding: 12px 20px;
-      border-radius: 24px;
-      overflow-x: auto;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .app-icon {
-      min-width: 80px;
-      height: 60px;
-      border-radius: 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-      transition: transform 0.2s ease, filter 0.2s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      border: none;
-      cursor: pointer;
+      width: 100%;
+      padding-bottom: 10px;
     }
 
-    .app-icon:hover {
-      transform: scale(1.08);
-      filter: brightness(1.2);
-    }
-
-    .app-icon i {
+    .order-main-btn {
+      background: linear-gradient(45deg, #111111, #25D366);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
       font-size: 1.2rem;
-      margin-bottom: 4px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 18px 45px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-transform: uppercase;
     }
 
-    .bg-black { background: #111; }
-    .bg-purple { background: #6b21a8; }
-    .bg-amber { background: #d97706; }
-    .bg-rose { background: #e11d48; }
-    .bg-blue { background: #2563eb; }
-    .bg-whatsapp { background: #25D366; }
-    .bg-gradient { background: linear-gradient(45deg, #7000ff, #ff007f); }
+    .order-main-btn:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 15px 35px rgba(37, 211, 102, 0.4);
+      border-color: #ffffff;
+    }
 
-    /* Interactive Modals */
+    /* Interactive Modal */
     .modal {
       display: none;
       position: fixed;
@@ -196,7 +183,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       backdrop-filter: blur(8px);
       justify-content: center;
       align-items: center;
@@ -330,96 +317,67 @@
       </div>
     </header>
 
-    <!-- Center Cards Row -->
-    <main class="cards-section">
+    <!-- Content Container (Perfume Cards + Place Order Button) -->
+    <div class="content-container">
       
-      <!-- Perfume 1 -->
-      <div class="card" style="background-image: url('perfume1.jpg');" onclick="openProductModal('Vanilla', 'A deep blend of warm vanilla, rich amber, and cedarwood.', 'Woody • Vanilla • Amber')">
-        <div class="card-overlay">
-          <div class="card-title">Vanilla</div>
-          <div class="card-subtitle">Woody • Vanilla • Amber</div>
-          <div class="card-price">From 25,000/= TZS</div>
+      <!-- Middle Perfume Carousel -->
+      <main class="cards-section">
+        
+        <!-- Perfume 1 -->
+        <div class="card" style="background-image: url('perfume1.jpg');" onclick="openProductModal('Vanilla', 'A deep blend of warm vanilla, rich amber, and cedarwood.', 'Woody • Vanilla • Amber')">
+          <div class="card-overlay">
+            <div class="card-title">Vanilla</div>
+            <div class="card-subtitle">Woody • Vanilla • Amber</div>
+          </div>
         </div>
-      </div>
 
-      <!-- Perfume 2 -->
-      <div class="card" style="background-image: url('perfume2.jpg');" onclick="openProductModal('Sugar Candy', 'Sweet jasmine mixed with fresh dark candy notes.', 'Floral • Sweet')">
-        <div class="card-overlay">
-          <div class="card-title">Sugar Candy</div>
-          <div class="card-subtitle">Floral • Sweet</div>
-          <div class="card-price">From 25,000/= TZS</div>
+        <!-- Perfume 2 -->
+        <div class="card" style="background-image: url('perfume2.jpg');" onclick="openProductModal('Sugar Candy', 'Sweet jasmine mixed with fresh dark candy notes.', 'Floral • Sweet')">
+          <div class="card-overlay">
+            <div class="card-title">Sugar Candy</div>
+            <div class="card-subtitle">Floral • Sweet</div>
+          </div>
         </div>
-      </div>
 
-      <!-- Perfume 3 -->
-      <div class="card" style="background-image: url('perfume3.jpg');" onclick="openProductModal('212 VIP', 'Crisp sea salt combined with fresh luxury citrus notes.', 'Fresh • Sea Salt')">
-        <div class="card-overlay">
-          <div class="card-title">212 VIP</div>
-          <div class="card-subtitle">Fresh • Sea Salt</div>
-          <div class="card-price">From 25,000/= TZS</div>
+        <!-- Perfume 3 -->
+        <div class="card" style="background-image: url('perfume3.jpg');" onclick="openProductModal('212 VIP', 'Crisp sea salt combined with fresh luxury citrus notes.', 'Fresh • Sea Salt')">
+          <div class="card-overlay">
+            <div class="card-title">212 VIP</div>
+            <div class="card-subtitle">Fresh • Sea Salt</div>
+          </div>
         </div>
-      </div>
 
-      <!-- Perfume 4 -->
-      <div class="card" style="background-image: url('perfume4.jpg');" onclick="openProductModal('Tag Sunset', 'Rich oriental spices infused with warm sunset amber.', 'Rich Spices')">
-        <div class="card-overlay">
-          <div class="card-title">Tag Sunset</div>
-          <div class="card-subtitle">Rich Spices</div>
-          <div class="card-price">From 25,000/= TZS</div>
+        <!-- Perfume 4 -->
+        <div class="card" style="background-image: url('perfume4.jpg');" onclick="openProductModal('Tag Sunset', 'Rich oriental spices infused with warm sunset amber.', 'Rich Spices')">
+          <div class="card-overlay">
+            <div class="card-title">Tag Sunset</div>
+            <div class="card-subtitle">Rich Spices</div>
+          </div>
         </div>
-      </div>
 
-    </main>
+      </main>
 
-    <!-- Bottom App Bar Navigation -->
-    <footer class="app-bar">
-      <button onclick="openCustomOrderModal()" class="app-icon bg-gradient">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>Custom Scent</span>
-      </button>
+      <!-- Center Single PLACE YOUR ORDER Button -->
+      <footer class="action-container">
+        <button onclick="openOrderModal()" class="order-main-btn">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>PLACE YOUR ORDER</span>
+        </button>
+      </footer>
 
-      <a href="https://wa.me/255764519027?text=Hi%20APPEARICH!%20I%20want%20to%20order%20perfume" target="_blank" class="app-icon bg-whatsapp">
-        <i class="fa-brands fa-whatsapp"></i>
-        <span>Order</span>
-      </a>
-
-      <button onclick="filterType('Luxury')" class="app-icon bg-black">
-        <i class="fa-solid fa-crown"></i>
-        <span>Luxury</span>
-      </button>
-
-      <button onclick="filterType('Woody')" class="app-icon bg-amber">
-        <i class="fa-solid fa-tree"></i>
-        <span>Woody</span>
-      </button>
-
-      <button onclick="filterType('Floral')" class="app-icon bg-rose">
-        <i class="fa-solid fa-seedling"></i>
-        <span>Floral</span>
-      </button>
-
-      <button onclick="filterType('Fresh')" class="app-icon bg-blue">
-        <i class="fa-solid fa-wind"></i>
-        <span>Fresh</span>
-      </button>
-
-      <button onclick="filterType('Bundles')" class="app-icon bg-purple">
-        <i class="fa-solid fa-gift"></i>
-        <span>Bundles</span>
-      </button>
-    </footer>
+    </div>
 
   </div>
 
-  <!-- Modal 1: Product Order Modal -->
-  <div class="modal" id="productModal">
+  <!-- Place Your Order Modal -->
+  <div class="modal" id="orderModal">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('productModal')">&times;</span>
-      <div class="modal-title" id="modalTitle">Perfume Name</div>
-      <div class="modal-subtitle-text" id="modalSubtitle">Fragrance Notes</div>
-      <p id="modalDesc" style="font-size:0.9rem; color:#ccc; margin-bottom:15px; line-height:1.4; text-align:center;"></p>
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <div class="modal-title">Place Your Order</div>
+      <div class="modal-subtitle-text">Choose bottle size & tell us your perfume details!</div>
       
-      <label style="font-size:0.85rem; color:#ddd; font-weight:600; display:block; margin-bottom:8px;">Select Bottle Size:</label>
+      <!-- Size Selection -->
+      <label style="font-size:0.85rem; color:#ddd; font-weight:600; display:block; margin-bottom:8px;">1. Select Size:</label>
       <div class="price-grid">
         <div class="price-card active" onclick="selectSize(this, '30ml (25,000/= TZS)')">
           <div class="size-title">30ml</div>
@@ -435,42 +393,14 @@
         </div>
       </div>
 
-      <button onclick="sendProductOrder()" class="whatsapp-btn">
-        <i class="fa-brands fa-whatsapp"></i> Order Scent on WhatsApp
-      </button>
-    </div>
-  </div>
-
-  <!-- Modal 2: Custom Scent Description Modal -->
-  <div class="modal" id="customOrderModal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('customOrderModal')">&times;</span>
-      <div class="modal-title">Describe Your Scent</div>
-      <div class="modal-subtitle-text">Choose your size & tell us what perfume you want!</div>
-      
-      <label style="font-size:0.85rem; color:#ddd; font-weight:600; display:block; margin-bottom:8px;">1. Select Preferred Size:</label>
-      <div class="price-grid">
-        <div class="price-card active" onclick="selectCustomSize(this, '30ml (25,000/= TZS)')">
-          <div class="size-title">30ml</div>
-          <div class="size-price">25,000/=</div>
-        </div>
-        <div class="price-card" onclick="selectCustomSize(this, '50ml (35,000/= TZS)')">
-          <div class="size-title">50ml</div>
-          <div class="size-price">35,000/=</div>
-        </div>
-        <div class="price-card" onclick="selectCustomSize(this, '100ml (55,000/= TZS)')">
-          <div class="size-title">100ml</div>
-          <div class="size-price">55,000/=</div>
-        </div>
-      </div>
-
+      <!-- Description Input -->
       <div class="form-group">
-        <label for="customScentDesc">2. Describe the scent you want:</label>
-        <textarea id="customScentDesc" placeholder="E.g., I want something long-lasting, sweet like vanilla/chocolate, or similar to Sauvage..."></textarea>
+        <label for="scentDesc">2. Perfume Name or Description:</label>
+        <textarea id="scentDesc" placeholder="Enter perfume name (e.g. Vanilla, 212 VIP) or describe what scent you want..."></textarea>
       </div>
 
-      <button onclick="sendCustomWhatsAppOrder()" class="whatsapp-btn">
-        <i class="fa-brands fa-whatsapp"></i> Send Description on WhatsApp
+      <button onclick="sendWhatsAppOrder()" class="whatsapp-btn">
+        <i class="fa-brands fa-whatsapp"></i> Send Order on WhatsApp
       </button>
     </div>
   </div>
@@ -478,58 +408,41 @@
   <!-- JavaScript -->
   <script>
     const whatsappPhone = "255764519027";
-    let selectedPerfume = "";
     let selectedSize = "30ml (25,000/= TZS)";
-    let customSize = "30ml (25,000/= TZS)";
 
+    // Opens modal when perfume card is clicked
     function openProductModal(name, desc, subtitle) {
-      selectedPerfume = name;
-      document.getElementById('modalTitle').innerText = name;
-      document.getElementById('modalSubtitle').innerText = subtitle;
-      document.getElementById('modalDesc').innerText = desc;
-      document.getElementById('productModal').style.display = 'flex';
+      document.getElementById('scentDesc').value = `Perfume: ${name}`;
+      document.getElementById('orderModal').style.display = 'flex';
     }
 
-    function selectSize(element, size) {
-      document.querySelectorAll('#productModal .price-card').forEach(c => c.classList.remove('active'));
+    // Opens modal via the PLACE YOUR ORDER button
+    function openOrderModal() {
+      document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    // Handles size selection
+    function selectSize(element, sizePrice) {
+      document.querySelectorAll('#orderModal .price-card').forEach(c => c.classList.remove('active'));
       element.classList.add('active');
-      selectedSize = size;
+      selectedSize = sizePrice;
     }
 
-    function sendProductOrder() {
-      const msg = encodeURIComponent(`Hi APPEARICH! I would like to order:\n- Perfume: ${selectedPerfume}\n- Size & Price: ${selectedSize}`);
-      window.open(`https://wa.me/${whatsappPhone}?text=${msg}`, '_blank');
-    }
-
-    function openCustomOrderModal() {
-      document.getElementById('customOrderModal').style.display = 'flex';
-    }
-
-    function selectCustomSize(element, sizePrice) {
-      document.querySelectorAll('#customOrderModal .price-card').forEach(c => c.classList.remove('active'));
-      element.classList.add('active');
-      customSize = sizePrice;
-    }
-
-    function sendCustomWhatsAppOrder() {
-      const userDescription = document.getElementById('customScentDesc').value.trim();
+    // Sends order via WhatsApp
+    function sendWhatsAppOrder() {
+      const userDescription = document.getElementById('scentDesc').value.trim();
       
       if (!userDescription) {
-        alert("Please describe the kind of perfume or scent you are looking for!");
+        alert("Please enter a perfume name or describe the scent you want!");
         return;
       }
 
-      const msg = encodeURIComponent(`Hi APPEARICH! I want a custom perfume recommendation:\n\n- Preferred Size: ${customSize}\n- Scent Description: "${userDescription}"`);
+      const msg = encodeURIComponent(`Hi APPEARICH! I would like to place an order:\n\n- Preferred Size: ${selectedSize}\n- Perfume Details: "${userDescription}"`);
       window.open(`https://wa.me/${whatsappPhone}?text=${msg}`, '_blank');
     }
 
-    function filterType(category) {
-      openCustomOrderModal();
-      document.getElementById('customScentDesc').value = `I am looking for a perfume from your [${category}] collection.`;
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = 'none';
+    function closeModal() {
+      document.getElementById('orderModal').style.display = 'none';
     }
   </script>
 
