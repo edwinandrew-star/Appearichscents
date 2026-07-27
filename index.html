@@ -1,70 +1,379 @@
-import bpy
-import random
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxe Fragrances - Scent Hub</title>
+  <style>
+    /* Global Reset & Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
 
-# Clear existing meshes
-bpy.ops.object.select_all(action='DESELECT')
-bpy.ops.object.select_by_type(type='MESH')
-bpy.ops.object.delete()
+    body {
+      background: #0f0c1b;
+      color: #ffffff;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-# Create a forest background (simple example)
-def create_forest():
-    for i in range(10):
-        bpy.ops.mesh.primitive_plane_add(size=10, enter_editmode=False, align='WORLD', location=(random.uniform(-30, 30), random.uniform(-30, 30), 0))
-        mat = bpy.data.materials.new(name="GrassMaterial")
-        mat.diffuse_color = (0.1, 0.5, 0.1, 1)  # Green
-        bpy.context.object.data.materials.append(mat)
+    /* WebOS Dashboard Container */
+    .tv-dashboard {
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #d30058 0%, #ff521b 40%, #fdb813 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px;
+      position: relative;
+    }
 
-create_forest()
+    /* Header Section */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
 
-# Create a coconut
-bpy.ops.mesh.primitive_uv_sphere_add(radius=0.5, enter_editmode=False, location=(0, 0, 5)) 
-coconut = bpy.context.object
-coconut.name = 'Coconut'
-coconut_material = bpy.data.materials.new(name="CoconutMaterial")
-coconut_material.diffuse_color = (0.5, 0.3, 0.2, 1)  # Brown
-coconut.data.materials.append(coconut_material)
+    .brand-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.9;
+    }
 
-# Animate coconut falling
-coconut.location.z = 5
-coconut.keyframe_insert(data_path="location", frame=1)
-coconut.location.z = 0
-coconut.keyframe_insert(data_path="location", frame=30)
+    .brand-logo {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-top: 5px;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
 
-# Create perfume bottle
-bpy.ops.mesh.primitive_cylinder_add(radius=0.3, depth=1, location=(0, 0, 0))
-bottle = bpy.context.object
-bottle.name = 'PerfumeBottle'
-bottle_material = bpy.data.materials.new(name="BottleMaterial")
-bottle_material.diffuse_color = (1, 0.85, 0.8, 1)  # Light pink
-bottle.data.materials.append(bottle_material)
+    .badges {
+      display: flex;
+      gap: 15px;
+    }
 
-# Animate filling the bottle
-bottle.location.z = 0
-bottle.keyframe_insert(data_path="scale", frame=1)
-bottle.scale.z = 2
-bottle.keyframe_insert(data_path="scale", frame=60)
+    .badge {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: bold;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
 
-# Display perfume details
-def create_text(text, location, size=1):
-    bpy.ops.object.text_add(location=location)
-    txt = bpy.context.object
-    txt.data.body = text
-    txt.scale = (size, size, size)
+    /* Middle Perfume Carousel */
+    .cards-section {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 15px 5px;
+      scrollbar-width: none;
+    }
 
-create_text("Appearich", (0, -2, 1), size=1)
-create_text("Coconut Passion", (0, -2, 2), size=0.8)
+    .cards-section::-webkit-scrollbar {
+      display: none;
+    }
 
-# Set camera view
-bpy.ops.object.camera_add(location=(5, -5, 5))
-bpy.context.scene.camera = bpy.context.object
-bpy.context.object.rotation_euler = (1.1, 0, 0.8)
+    .card {
+      min-width: 250px;
+      height: 330px;
+      border-radius: 18px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
 
-# Add lighting
-bpy.ops.object.light_add(type='SUN', location=(5, -5, 10))
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      border-color: #ffffff;
+    }
 
-# Render setup
-bpy.context.scene.render.filepath = "//perfume_animation"
-bpy.context.scene.render.image_settings.file_format = 'PNG'
-bpy.ops.render.render(write_still=True)
+    .card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    }
 
-print("Animation setup done!")
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: #ddd;
+    }
+
+    .card-price {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #fdb813;
+      margin-top: 6px;
+    }
+
+    /* Bottom App Bar Navigation */
+    .app-bar {
+      display: flex;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(20px);
+      padding: 12px 20px;
+      border-radius: 24px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .app-icon {
+      min-width: 75px;
+      height: 60px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .app-icon:hover {
+      transform: scale(1.1);
+      filter: brightness(1.2);
+    }
+
+    .app-icon i {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+
+    .bg-black { background: #111; }
+    .bg-purple { background: #6b21a8; }
+    .bg-amber { background: #d97706; }
+    .bg-rose { background: #e11d48; }
+    .bg-blue { background: #2563eb; }
+    .bg-whatsapp { background: #25D366; }
+
+    /* Interactive Popup Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #181528;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .close-btn:hover { color: #fff; }
+
+    .modal-title { font-size: 1.8rem; margin-bottom: 8px; }
+    .modal-desc { font-size: 0.95rem; color: #ccc; margin-bottom: 15px; line-height: 1.4; }
+    .modal-price { font-size: 1.4rem; font-weight: bold; color: #fdb813; margin-bottom: 20px; }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px;
+      background: #25D366;
+      color: white;
+      font-weight: bold;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s ease;
+    }
+
+    .whatsapp-btn:hover { background: #1eb855; }
+  </style>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="tv-dashboard">
+    
+    <!-- Top Branding & Badges -->
+    <header class="header">
+      <div>
+        <div class="brand-title">powered by</div>
+        <div class="brand-logo">LuxeScents</div>
+      </div>
+      <div class="badges">
+        <div class="badge">
+          <span>100%</span>
+          <span>ORIGINAL</span>
+        </div>
+        <div class="badge">
+          <span>FAST</span>
+          <span>DELIVERY</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Center Cards Row (Your Perfumes) -->
+    <main class="cards-section">
+      
+      <!-- Perfume 1 -->
+      <div class="card" style="background-image: url('perfume1.jpg');" onclick="openModal('Noir Elegance', 'A deep blend of warm vanilla, rich amber, and cedarwood.', '$45')">
+        <div class="card-overlay">
+          <div class="card-title">NOIR ELEGANCE</div>
+          <div class="card-subtitle">Woody • Vanilla • Amber</div>
+          <div class="card-price">$45</div>
+        </div>
+      </div>
+
+      <!-- Perfume 2 -->
+      <div class="card" style="background-image: url('perfume2.jpg');" onclick="openModal('Velvet Rose', 'Sweet jasmine mixed with fresh dark rose petals.', '$50')">
+        <div class="card-overlay">
+          <div class="card-title">VELVET ROSE</div>
+          <div class="card-subtitle">Floral • Sweet • Musk</div>
+          <div class="card-price">$50</div>
+        </div>
+      </div>
+
+      <!-- Perfume 3 -->
+      <div class="card" style="background-image: url('perfume3.jpg');" onclick="openModal('Ocean Breeze', 'Crisp sea salt combined with fresh citrus notes.', '$40')">
+        <div class="card-overlay">
+          <div class="card-title">OCEAN BREEZE</div>
+          <div class="card-subtitle">Fresh • Citrus • Sea Salt</div>
+          <div class="card-price">$40</div>
+        </div>
+      </div>
+
+      <!-- Perfume 4 -->
+      <div class="card" style="background-image: url('perfume4.jpg');" onclick="openModal('Golden Oud', 'Rich oriental oud wood infused with warm cardamom.', '$65')">
+        <div class="card-overlay">
+          <div class="card-title">GOLDEN OUD</div>
+          <div class="card-subtitle">Rich Spices • Deep Oud</div>
+          <div class="card-price">$65</div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bottom App Bar Navigation -->
+    <footer class="app-bar">
+      <!-- REPLACE 255XXXXXXXXX WITH YOUR PHONE NUMBER BELOW -->
+      <a href="https://wa.me/255XXXXXXXXX?text=Hi!%20I%20want%20to%20order%20perfumes" target="_blank" class="app-icon bg-whatsapp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Order</span>
+      </a>
+      <a href="#" class="app-icon bg-black">
+        <i class="fa-solid fa-crown"></i>
+        <span>Luxury</span>
+      </a>
+      <a href="#" class="app-icon bg-amber">
+        <i class="fa-solid fa-tree"></i>
+        <span>Woody</span>
+      </a>
+      <a href="#" class="app-icon bg-rose">
+        <i class="fa-solid fa-seedling"></i>
+        <span>Floral</span>
+      </a>
+      <a href="#" class="app-icon bg-blue">
+        <i class="fa-solid fa-wind"></i>
+        <span>Fresh</span>
+      </a>
+      <a href="#" class="app-icon bg-purple">
+        <i class="fa-solid fa-gift"></i>
+        <span>Bundles</span>
+      </a>
+    </footer>
+
+  </div>
+
+  <!-- Popup Box for Product Details -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <div class="modal-title" id="modalTitle">Perfume Name</div>
+      <div class="modal-desc" id="modalDesc">Fragrance description...</div>
+      <div class="modal-price" id="modalPrice">$0</div>
+      <!-- REPLACE 255XXXXXXXXX WITH YOUR PHONE NUMBER BELOW -->
+      <a href="#" id="orderBtn" target="_blank" class="whatsapp-btn">
+        <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- JavaScript to handle Popups -->
+  <script>
+    const whatsappPhone = "255XXXXXXXXX"; // Change to your actual WhatsApp phone number
+
+    function openModal(name, desc, price) {
+      document.getElementById('modalTitle').innerText = name;
+      document.getElementById('modalDesc').innerText = desc;
+      document.getElementById('modalPrice').innerText = price;
+      
+      const message = encodeURIComponent(`Hi! I want to order ${name} (${price}). Is it available?`);
+      document.getElementById('orderBtn').href = `https://wa.me/${whatsappPhone}?text=${message}`;
+      
+      document.getElementById('productModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('productModal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
